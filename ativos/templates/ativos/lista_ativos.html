@@ -1,0 +1,104 @@
+{% extends 'ativos/base.html' %}
+
+{% block title %}Ativos Monitorados{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">
+                    <i class="fas fa-list me-2"></i>
+                    Ativos Monitorados
+                </h5>
+                <a href="{% url 'adicionar_ativo' %}" class="btn btn-light btn-sm">
+                    <i class="fas fa-plus me-1"></i>Novo Ativo
+                </a>
+            </div>
+            <div class="card-body">
+                {% if ativos %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Código</th>
+                                    <th>Nome</th>
+                                    <th>Túnel de Preço</th>
+                                    <th>Periodicidade</th>
+                                    <th>Última Cotação</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for ativo in ativos %}
+                                <tr>
+                                    <td>
+                                        <strong>{{ ativo.codigo }}</strong>
+                                    </td>
+                                    <td>{{ ativo.nome }}</td>
+                                    <td>
+                                        {% if ativo.tunel %}
+                                            <span class="badge bg-info">
+                                                R$ {{ ativo.tunel.limite_inferior }} - R$ {{ ativo.tunel.limite_superior }}
+                                            </span>
+                                            <br>
+                                            <small class="text-muted">{{ ativo.tunel.get_tipo_display }}</small>
+                                        {% else %}
+                                            <span class="text-muted">Não configurado</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if ativo.periodicidade %}
+                                            <span class="badge bg-success">{{ ativo.periodicidade.minutos }} min</span>
+                                        {% else %}
+                                            <span class="text-muted">Não configurado</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if ativo.cotacoes.first %}
+                                            <strong>R$ {{ ativo.cotacoes.first.preco }}</strong>
+                                            <br>
+                                            <small class="text-muted">{{ ativo.cotacoes.first.data_hora|date:"d/m/Y H:i" }}</small>
+                                        {% else %}
+                                            <span class="text-muted">Nenhuma cotação</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <div class="btn-group" role="group">
+                                            <a href="{% url 'visualizar_cotacoes' ativo.id %}" 
+                                               class="btn btn-outline-primary btn-sm" 
+                                               title="Ver Cotações">
+                                                <i class="fas fa-chart-line"></i>
+                                            </a>
+                                            <a href="{% url 'editar_ativo' ativo.id %}" 
+                                               class="btn btn-outline-warning btn-sm" 
+                                               title="Editar">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <a href="{% url 'excluir_ativo' ativo.id %}" 
+                                               class="btn btn-outline-danger btn-sm" 
+                                               title="Excluir">
+                                                <i class="fas fa-trash"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="text-center py-5">
+                        <i class="fas fa-chart-line fa-3x text-muted mb-3"></i>
+                        <h5 class="text-muted">Nenhum ativo cadastrado</h5>
+                        <p class="text-muted">Comece adicionando seu primeiro ativo para monitoramento.</p>
+                        <a href="{% url 'adicionar_ativo' %}" class="btn btn-primary">
+                            <i class="fas fa-plus me-1"></i>Adicionar Primeiro Ativo
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

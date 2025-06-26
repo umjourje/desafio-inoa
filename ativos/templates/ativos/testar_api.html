@@ -1,0 +1,127 @@
+{% extends 'ativos/base.html' %}
+
+{% block title %}Testar API BRAPI{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-plug me-2"></i>
+                    Testar API BRAPI
+                </h5>
+            </div>
+            <div class="card-body">
+                <form method="post" class="mb-4">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-8">
+                            <label for="ticker" class="form-label">Código do Ativo</label>
+                            <input type="text" 
+                                   class="form-control" 
+                                   id="ticker" 
+                                   name="ticker" 
+                                   value="{{ ticker|default:'' }}"
+                                   placeholder="Ex: PETR4, VALE3, ITUB4"
+                                   required>
+                            <div class="form-text">Digite o código do ativo da B3</div>
+                        </div>
+                        <div class="col-md-4 d-flex align-items-end">
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="fas fa-search me-1"></i>Buscar Cotação
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+                {% if resultado %}
+                    <div class="alert alert-success">
+                        <h6 class="alert-heading">
+                            <i class="fas fa-check-circle me-1"></i>
+                            Cotação Encontrada
+                        </h6>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p><strong>Ativo:</strong> {{ resultado.ticker }}</p>
+                                <p><strong>Preço:</strong> R$ {{ resultado.price }}</p>
+                                <p><strong>Variação:</strong> 
+                                    <span class="{% if resultado.change >= 0 %}text-success{% else %}text-danger{% endif %}">
+                                        {{ resultado.change }} ({{ resultado.change_percent }}%)
+                                    </span>
+                                </p>
+                            </div>
+                            <div class="col-md-6">
+                                <p><strong>Volume:</strong> {{ resultado.volume|floatformat:0 }}</p>
+                                <p><strong>Market Cap:</strong> R$ {{ resultado.market_cap|floatformat:0 }}</p>
+                                <p><strong>Timestamp:</strong> {{ resultado.timestamp }}</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
+                <div class="mt-4">
+                    <h6 class="text-primary">Ativos Populares para Teste:</h6>
+                    <div class="row">
+                        <div class="col-md-3 mb-2">
+                            <button class="btn btn-outline-secondary btn-sm w-100" onclick="testarTicker('PETR4')">
+                                PETR4
+                            </button>
+                        </div>
+                        <div class="col-md-3 mb-2">
+                            <button class="btn btn-outline-secondary btn-sm w-100" onclick="testarTicker('VALE3')">
+                                VALE3
+                            </button>
+                        </div>
+                        <div class="col-md-3 mb-2">
+                            <button class="btn btn-outline-secondary btn-sm w-100" onclick="testarTicker('ITUB4')">
+                                ITUB4
+                            </button>
+                        </div>
+                        <div class="col-md-3 mb-2">
+                            <button class="btn btn-outline-secondary btn-sm w-100" onclick="testarTicker('BBDC4')">
+                                BBDC4
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mt-4">
+            <div class="card-header">
+                <h6 class="mb-0">
+                    <i class="fas fa-info-circle me-2"></i>
+                    Informações da API
+                </h6>
+            </div>
+            <div class="card-body">
+                <p><strong>Endpoint:</strong> https://brapi.dev/api/quote/{ticker}</p>
+                <p><strong>Limite de Requisições:</strong> 1000 por dia (gratuito)</p>
+                <p><strong>Ativos Suportados:</strong> Todos os ativos listados na B3</p>
+                <p><strong>Dados Retornados:</strong> Preço atual, variação, volume, market cap</p>
+                
+                <div class="alert alert-warning mt-3">
+                    <h6 class="alert-heading">
+                        <i class="fas fa-exclamation-triangle me-1"></i>
+                        Token Necessário
+                    </h6>
+                    <p class="mb-0">
+                        Para usar a API BRAPI, você precisa de um token de autenticação. 
+                        <a href="https://brapi.dev/" target="_blank" class="alert-link">Obtenha seu token aqui</a> 
+                        e configure-o no arquivo <code>config.env</code>.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function testarTicker(ticker) {
+    document.getElementById('ticker').value = ticker;
+    document.querySelector('form').submit();
+}
+</script>
+{% endblock %} 

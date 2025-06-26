@@ -1,0 +1,153 @@
+{% extends 'ativos/base.html' %}
+
+{% block title %}{{ titulo }}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-edit me-2"></i>
+                    {{ titulo }}
+                </h5>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    <div class="row">
+                        <!-- Informações do Ativo -->
+                        <div class="col-md-6">
+                            <h6 class="text-primary mb-3">
+                                <i class="fas fa-info-circle me-1"></i>
+                                Informações do Ativo
+                            </h6>
+                            
+                            <div class="mb-3">
+                                <label for="{{ form.codigo.id_for_label }}" class="form-label">
+                                    {{ form.codigo.label }}
+                                </label>
+                                {{ form.codigo }}
+                                {% if form.codigo.errors %}
+                                    <div class="text-danger small">
+                                        {% for error in form.codigo.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="{{ form.nome.id_for_label }}" class="form-label">
+                                    {{ form.nome.label }}
+                                </label>
+                                {{ form.nome }}
+                                {% if form.nome.errors %}
+                                    <div class="text-danger small">
+                                        {% for error in form.nome.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <!-- Configurações de Monitoramento -->
+                        <div class="col-md-6">
+                            <h6 class="text-primary mb-3">
+                                <i class="fas fa-cog me-1"></i>
+                                Configurações de Monitoramento
+                            </h6>
+                            
+                            <div class="mb-3">
+                                <label for="{{ form.periodicidade_minutos.id_for_label }}" class="form-label">
+                                    {{ form.periodicidade_minutos.label }}
+                                </label>
+                                {{ form.periodicidade_minutos }}
+                                {% if form.periodicidade_minutos.errors %}
+                                    <div class="text-danger small">
+                                        {% for error in form.periodicidade_minutos.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                                <div class="form-text">Intervalo em minutos para verificar a cotação</div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="{{ form.tipo_tunel.id_for_label }}" class="form-label">
+                                    {{ form.tipo_tunel.label }}
+                                </label>
+                                {{ form.tipo_tunel }}
+                                {% if form.tipo_tunel.errors %}
+                                    <div class="text-danger small">
+                                        {% for error in form.tipo_tunel.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Túnel de Preço -->
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <h6 class="text-primary mb-3">
+                                <i class="fas fa-chart-area me-1"></i>
+                                Túnel de Preço
+                            </h6>
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="{{ form.limite_inferior.id_for_label }}" class="form-label">
+                                            {{ form.limite_inferior.label }}
+                                        </label>
+                                        {{ form.limite_inferior }}
+                                        {% if form.limite_inferior.errors %}
+                                            <div class="text-danger small">
+                                                {% for error in form.limite_inferior.errors %}
+                                                    {{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                        <div class="form-text">Preço mínimo para sugerir compra</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="{{ form.limite_superior.id_for_label }}" class="form-label">
+                                            {{ form.limite_superior.label }}
+                                        </label>
+                                        {{ form.limite_superior }}
+                                        {% if form.limite_superior.errors %}
+                                            <div class="text-danger small">
+                                                {% for error in form.limite_superior.errors %}
+                                                    {{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                        <div class="form-text">Preço máximo para sugerir venda</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between mt-4">
+                        <a href="{% url 'lista_ativos' %}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left me-1"></i>Voltar
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save me-1"></i>Salvar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

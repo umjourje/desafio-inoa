@@ -1,0 +1,274 @@
+{% extends 'ativos/base.html' %}
+
+{% block title %}Home - Sistema de Monitoramento B3{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card bg-gradient-primary text-white">
+            <div class="card-body text-center py-5">
+                <h1 class="display-4 mb-3">
+                    <i class="fas fa-chart-line me-3"></i>
+                    Sistema de Monitoramento B3
+                </h1>
+                <p class="lead mb-4">
+                    Auxilie suas decisões de investimento com monitoramento inteligente de ativos da B3
+                </p>
+                <div class="d-flex justify-content-center gap-3">
+                    <a href="{% url 'adicionar_ativo' %}" class="btn btn-light btn-lg">
+                        <i class="fas fa-plus me-2"></i>Adicionar Ativo
+                    </a>
+                    <a href="{% url 'lista_ativos' %}" class="btn btn-outline-light btn-lg">
+                        <i class="fas fa-list me-2"></i>Ver Ativos
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Estatísticas -->
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="fas fa-chart-bar fa-2x text-primary mb-2"></i>
+                <h4>{{ total_ativos }}</h4>
+                <p class="text-muted">Ativos Monitorados</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="fas fa-database fa-2x text-success mb-2"></i>
+                <h4>{{ total_cotacoes }}</h4>
+                <p class="text-muted">Cotações Armazenadas</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="fas fa-tunnel fa-2x text-warning mb-2"></i>
+                <h4>{{ ativos_com_tunel }}</h4>
+                <p class="text-muted">Túneis Configurados</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="fas fa-clock fa-2x text-info mb-2"></i>
+                <h4>24/7</h4>
+                <p class="text-muted">Monitoramento</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Funcionalidades -->
+<div class="row mb-4">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-star me-2"></i>
+                    Funcionalidades Principais
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="d-flex align-items-start mb-3">
+                            <i class="fas fa-check-circle text-success me-3 mt-1"></i>
+                            <div>
+                                <h6>Interface Web Intuitiva</h6>
+                                <p class="text-muted small">Configure ativos, túneis de preço e periodicidade</p>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-start mb-3">
+                            <i class="fas fa-check-circle text-success me-3 mt-1"></i>
+                            <div>
+                                <h6>Monitoramento Automático</h6>
+                                <p class="text-muted small">Obtenção periódica de cotações via API BRAPI</p>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-start mb-3">
+                            <i class="fas fa-check-circle text-success me-3 mt-1"></i>
+                            <div>
+                                <h6>Alertas Inteligentes</h6>
+                                <p class="text-muted small">Sugestões de compra/venda baseadas em túneis</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="d-flex align-items-start mb-3">
+                            <i class="fas fa-check-circle text-success me-3 mt-1"></i>
+                            <div>
+                                <h6>Histórico de Cotações</h6>
+                                <p class="text-muted small">Visualização de dados históricos dos ativos</p>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-start mb-3">
+                            <i class="fas fa-check-circle text-success me-3 mt-1"></i>
+                            <div>
+                                <h6>Notificações por E-mail</h6>
+                                <p class="text-muted small">Alertas automáticos quando há oportunidades</p>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-start mb-3">
+                            <i class="fas fa-check-circle text-success me-3 mt-1"></i>
+                            <div>
+                                <h6>API BRAPI Integrada</h6>
+                                <p class="text-muted small">Cotações em tempo real da B3</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-envelope me-2"></i>
+                    Testar E-mail
+                </h5>
+            </div>
+            <div class="card-body">
+                <form method="post" action="{% url 'enviar_email_teste' %}">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="email" class="form-label">E-mail para teste</label>
+                        <input type="email" 
+                               class="form-control" 
+                               id="email" 
+                               name="email" 
+                               placeholder="seu@email.com"
+                               required>
+                        <div class="form-text">Teste a configuração de e-mail</div>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="fas fa-paper-plane me-1"></i>Enviar E-mail de Teste
+                    </button>
+                </form>
+            </div>
+        </div>
+        
+        <div class="card mt-3">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-cogs me-2"></i>
+                    Ações Rápidas
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a href="{% url 'testar_api' %}" class="btn btn-outline-primary">
+                        <i class="fas fa-plug me-1"></i>Testar API
+                    </a>
+                    <a href="{% url 'executar_monitoramento' %}" class="btn btn-outline-success">
+                        <i class="fas fa-play me-1"></i>Executar Monitoramento
+                    </a>
+                    <a href="{% url 'lista_ativos' %}" class="btn btn-outline-info">
+                        <i class="fas fa-list me-1"></i>Ver Todos os Ativos
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Últimas Cotações -->
+{% if ultimas_cotacoes %}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-clock me-2"></i>
+                    Últimas Cotações
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Ativo</th>
+                                <th>Preço</th>
+                                <th>Data/Hora</th>
+                                <th>Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for cotacao in ultimas_cotacoes %}
+                            <tr>
+                                <td>
+                                    <strong>{{ cotacao.ativo.codigo }}</strong>
+                                    <br>
+                                    <small class="text-muted">{{ cotacao.ativo.nome }}</small>
+                                </td>
+                                <td>
+                                    <strong class="text-primary">R$ {{ cotacao.preco }}</strong>
+                                </td>
+                                <td>
+                                    <small>{{ cotacao.data_hora|date:"d/m/Y H:i" }}</small>
+                                </td>
+                                <td>
+                                    <a href="{% url 'visualizar_cotacoes' cotacao.ativo.id %}" 
+                                       class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-chart-line"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Informações da API -->
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-info-circle me-2"></i>
+                    Sobre a API BRAPI
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6>Características</h6>
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-check text-success me-2"></i>Endpoint: https://brapi.dev/api/quote/{ticker}</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Limite: 1000 requisições/dia (gratuito)</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Ativos: Todos os ativos da B3</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Dados: Preço, variação, volume, market cap</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>Configuração</h6>
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-key text-warning me-2"></i>Token de autenticação obrigatório</li>
+                            <li><i class="fas fa-link text-info me-2"></i>Obtenha em: <a href="https://brapi.dev/" target="_blank">brapi.dev</a></li>
+                            <li><i class="fas fa-file-code text-secondary me-2"></i>Configure no arquivo config.env</li>
+                            <li><i class="fas fa-test text-primary me-2"></i>Teste a integração na seção "Testar API"</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

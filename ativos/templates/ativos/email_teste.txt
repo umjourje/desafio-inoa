@@ -1,0 +1,21 @@
+Teste de Configuração - Sistema de Monitoramento B3
+==================================================
+
+E-mail de Teste Enviado com Sucesso!
+
+Olá!
+
+{{ mensagem }}
+
+Se você recebeu este e-mail, significa que a configuração de e-mail do sistema está funcionando corretamente.
+
+Próximos Passos:
+- Configure seus ativos para monitoramento
+- Defina túneis de preço para alertas
+- Receba notificações automáticas de oportunidades
+
+Obrigado por usar o Sistema de Monitoramento B3!
+
+---
+Este é um e-mail automático do Sistema de Monitoramento B3
+Desenvolvido com ❤️ usando Django e Python 

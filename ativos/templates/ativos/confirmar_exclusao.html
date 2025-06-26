@@ -1,0 +1,40 @@
+{% extends 'ativos/base.html' %}
+
+{% block title %}Excluir Ativo{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    Confirmar Exclusão
+                </h5>
+            </div>
+            <div class="card-body text-center">
+                <i class="fas fa-trash fa-3x text-danger mb-3"></i>
+                <h5>Tem certeza que deseja excluir o ativo?</h5>
+                <p class="text-muted">
+                    <strong>{{ ativo.codigo }} - {{ ativo.nome }}</strong>
+                </p>
+                <p class="text-muted">
+                    Esta ação não pode ser desfeita e removerá todas as cotações associadas.
+                </p>
+                
+                <form method="post" class="mt-4">
+                    {% csrf_token %}
+                    <div class="d-flex justify-content-center gap-2">
+                        <a href="{% url 'lista_ativos' %}" class="btn btn-secondary">
+                            <i class="fas fa-times me-1"></i>Cancelar
+                        </a>
+                        <button type="submit" class="btn btn-danger">
+                            <i class="fas fa-trash me-1"></i>Confirmar Exclusão
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 
